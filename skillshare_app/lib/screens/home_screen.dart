@@ -7,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to SkillShare'),
+        title: const Text('Bienvenido a SkillShare'),
         actions: const [
           Icon(Icons.notifications_none),
           SizedBox(width: 12),
@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             // Buscar
             TextField(
               decoration: InputDecoration(
-                hintText: 'Search classes',
+                hintText: 'Buscar clases',
                 prefixIcon: const Icon(Icons.search),
                 filled: true,
                 fillColor: Colors.grey.shade200,
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
 
             // Featured Classes
             const Text(
-              'Featured Classes',
+              'Clases destacadas',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
@@ -46,9 +46,23 @@ class HomeScreen extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  _featuredCard('Photography Basics', 'By John Doe', 'lib/images/photo.jpg'),
-                  const SizedBox(width: 12),
-                  _featuredCard('Creative Writing', 'By Jane Smith', 'lib/images/writing.jpg'),
+                  _featuredCard('Fotografia basica ', 'Por John Doe', 'lib/images/photo.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Escritura creativa', 'Por Jane Smith', 'lib/images/writing.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Matemáticas esenciales', 'Por Ana Torres', 'lib/images/matematicas.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Física para todos', 'Por David Ríos', 'lib/images/fisica.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Inglés básico', 'Por Lisa Green', 'lib/images/ingles.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Programación con Dart', 'Por Enrique M.', 'lib/images/programacion.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Diseño gráfico', 'Por Laura Pérez', 'lib/images/diseno.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Fotografía avanzada', 'Por Juan Esteban', 'lib/images/foto_avanzada.jpg'),
+                  const SizedBox(width: 16),
+                  _featuredCard('Historia del arte', 'Por Camila Ruiz', 'lib/images/arte.jpg'),
                 ],
               ),
             ),
@@ -56,13 +70,13 @@ class HomeScreen extends StatelessWidget {
 
             // Recent Classes
             const Text(
-              'Recent Classes',
+              'Clases recientes',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            _recentClassCard('Digital Marketing 101', 'By Alex Johnson', 'lib/images/marketing.jpg'),
+            _recentClassCard('Marketing digital 101', 'Por Alex Johnson', 'lib/images/marketing.jpg'),
             const SizedBox(height: 12),
-            _recentClassCard('Cooking for Beginners', 'By Chef Mike', 'lib/images/cooking.jpg'),
+            _recentClassCard('Cocinar para principiantes', 'Por Chef Mike', 'lib/images/cooking.jpg'),
           ],
         ),
       ),
