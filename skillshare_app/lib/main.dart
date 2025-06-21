@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:skillshare_app/screens/mainNavigation.dart';
 import 'package:skillshare_app/screens/savedScreen.dart';
 import 'package:skillshare_app/screens/search_screen.dart';
 import 'screens/welcome_screen.dart';
