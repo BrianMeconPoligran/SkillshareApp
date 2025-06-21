@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   if (_formKey.currentState!.validate()) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => const HomeScreen()),
+                      MaterialPageRoute(builder: (_) => const HomeScreen(initialIndex: 0,)),
                     );
                   }
                 },

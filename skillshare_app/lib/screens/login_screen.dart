@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (_formKey.currentState!.validate()) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const HomeScreen(initialIndex: 0,)),
 
                     );
                   }

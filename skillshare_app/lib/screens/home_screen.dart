@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:skillshare_app/screens/saved_class.dart';
+import 'package:skillshare_app/screens/saved_classes.dart';
+
+import 'class_detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required int initialIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -46,23 +50,23 @@ class HomeScreen extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  _featuredCard('Fotografia basica ', 'Por John Doe', 'lib/images/photo.jpg'),
+                  _featuredCard(context, 'Fotografia basica', 'John Doe', 'lib/images/photo.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Escritura creativa', 'Por Jane Smith', 'lib/images/writing.jpg'),
+                  _featuredCard(context, 'Escritura creativa', 'Jane Smith', 'lib/images/writing.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Matemáticas esenciales', 'Por Ana Torres', 'lib/images/matematicas.jpg'),
+                  _featuredCard(context, 'Matemáticas esenciales', 'Ana Torres', 'lib/images/matematicas.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Física para todos', 'Por David Ríos', 'lib/images/fisica.jpg'),
+                  _featuredCard(context, 'Física para todos', 'David Ríos', 'lib/images/fisica.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Inglés básico', 'Por Lisa Green', 'lib/images/ingles.jpg'),
+                  _featuredCard(context, 'Inglés básico', 'Lisa Green', 'lib/images/ingles.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Programación con Dart', 'Por Enrique M.', 'lib/images/programacion.jpg'),
+                  _featuredCard(context, 'Programación con Dart', 'Enrique M.', 'lib/images/programacion.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Diseño gráfico', 'Por Laura Pérez', 'lib/images/diseno.jpg'),
+                  _featuredCard(context, 'Diseño gráfico', 'Laura Pérez', 'lib/images/diseno.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Fotografía avanzada', 'Por Juan Esteban', 'lib/images/foto_avanzada.jpg'),
+                  _featuredCard(context, 'Fotografía avanzada', 'Juan Esteban', 'lib/images/foto_avanzada.jpg'),
                   const SizedBox(width: 16),
-                  _featuredCard('Historia del arte', 'Por Camila Ruiz', 'lib/images/arte.jpg'),
+                  _featuredCard(context, 'Historia del arte', 'Camila Ruiz', 'lib/images/arte.jpg'),
                 ],
               ),
             ),
@@ -74,9 +78,9 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            _recentClassCard('Marketing digital 101', 'Por Alex Johnson', 'lib/images/marketing.jpg'),
+            _recentClassCard(context, 'Marketing digital 101', 'Alex Johnson', 'lib/images/marketing.jpg'),
             const SizedBox(height: 12),
-            _recentClassCard('Cocinar para principiantes', 'Por Chef Mike', 'lib/images/cooking.jpg'),
+            _recentClassCard(context, 'Cocinar para principiantes', 'Chef Mike', 'lib/images/cooking.jpg'),
           ],
         ),
       ),
@@ -84,8 +88,22 @@ class HomeScreen extends StatelessWidget {
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
+        selectedItemColor: Colors.blue, // Color azul al seleccionar
+        unselectedItemColor: Colors.grey, // Color gris cuando no está seleccionado
         onTap: (index) {
-          // Aquí puedes controlar la navegación
+          switch (index) {
+            case 0:
+              break;
+            case 1:
+              Navigator.pushNamed(context, '/search');
+              break;
+            case 2:
+              Navigator.pushNamed(context, '/saved');
+              break;
+            case 3:
+              Navigator.pushNamed(context, '/profile');
+              break;
+          }
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -97,7 +115,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _featuredCard(String title, String author, String imagePath) {
+  Widget _featuredCard(BuildContext context, String title, String author, String imagePath) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Container(
@@ -106,7 +124,23 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(imagePath, height: 100, width: 200, fit: BoxFit.cover),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ClassDetailScreen(
+                      title: 'Fotografía para Principiantes',
+                      description: 'Aprende fotografía digital, composición y edición básica.',
+                      date: '10 de Julio',
+                      time: '3:00 PM',
+                      location: 'Aula Virtual 4',
+                    ),
+                  ),
+                );
+              },
+              child: Image.asset(imagePath, height: 100, width: 200, fit: BoxFit.cover),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -115,13 +149,25 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(author, style: const TextStyle(color: Colors.grey)),
             ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: const Icon(Icons.bookmark_border),
+                onPressed: () {
+                  savedClasses.add(SavedClass(title: title, author: author, imagePath: imagePath));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Clase guardada')),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _recentClassCard(String title, String author, String imagePath) {
+  Widget _recentClassCard(BuildContext context, String title, String author, String imagePath) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Container(
@@ -138,6 +184,22 @@ class HomeScreen extends StatelessWidget {
                   Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
                   Text(author, style: const TextStyle(color: Colors.grey)),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: const Icon(Icons.bookmark_border),
+                      onPressed: () {
+                        savedClasses.add(SavedClass(
+                          title: title,
+                          author: author,
+                          imagePath: imagePath,
+                        ));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Clase guardada')),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -146,4 +208,5 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 }
